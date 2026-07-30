@@ -14,9 +14,14 @@ A comprehensive and robust full-stack web application for managing employee prof
 - Complete CRUD (Create, Read, Update, Delete) capability on employee records.
 - Automatically creates matching user credentials when an employee is registered.
 
+  <img width="946" height="473" alt="Screenshot 2026-07-30 131100" src="https://github.com/user-attachments/assets/cf8a7ea0-7274-4dfa-b62d-cc9d0f9d1861" />
+
+
 ### 📅 Attendance & Leave Management
 - **Attendance**: Record monthly active/present days and leaves.
 - **Leaves**: Employees can apply for leaves by specifying start/end dates and reasons. Admins can view all leave requests and approve/reject them in real-time.
+  <img width="959" height="444" alt="Screenshot 2026-07-30 131113" src="https://github.com/user-attachments/assets/403a5388-db8d-4352-baf9-3e2e98557f2c" />
+
 
 ### 💰 Payroll Processing
 - Computes salary details dynamically based on base salary and present days (out of a 30-day standard month):
@@ -27,6 +32,9 @@ A comprehensive and robust full-stack web application for managing employee prof
   - **Tax**: 5% of gross salary.
   - **Net Salary**: `Gross - (PF + Tax)`.
 - Generates interactive, downloadable monthly payslips.
+
+  <img width="419" height="440" alt="Screenshot 2026-07-30 131221" src="https://github.com/user-attachments/assets/5ad413fd-aa94-4b35-a47a-5d74b2ae660f" />
+
 
 ### 📊 Report Generation
 - Generate monthly payroll reports showing individual net salaries and overall company expenditure.
