@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Admin Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f9;
+        }
+
+        /* Fix content position */
+        .main-content {
+            margin-left: 230px;
+            padding: 20px;
+            width: calc(100% - 230px);
+        }
+
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            margin-bottom: 0;
+            color: black;
+        }
+
+        .logout-btn {
+            padding: 8px 15px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            display: inline-block;
+            width: auto;
+            margin: 0;
+        }
+
+        .logout-btn:hover {
+            background: #dc2626;
+        }
+
+        .container {
+            display: flex;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h3 {
+            margin-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #4f46e5;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #4338ca;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .btn-small {
+            width: auto;
+            padding: 5px 10px;
+            margin-top: 0;
+            font-size: 13px;
+            display: inline-block;
+        }
+
+        .edit-btn {
+            background: #f59e0b;
+        }
+
+        .edit-btn:hover {
+            background: #d97706;
+        }
+
+        .del-btn {
+            background: #ef4444;
+        }
+
+        .del-btn:hover {
+            background: #dc2626;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            outline: none;
+            background: white;
+        }
+
+        ul {
+            margin-top: 10px;
+            list-style: none;
+        }
+
+        ul li {
+            background: #ffffff;
+            padding: 10px;
+
+            margin-bottom: 5px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #loginGate {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .login-box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 350px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+
+
+        .logout-btn {
+            background: #ef4444;
+        }
+
+        .logout-btn:hover {
+            background: #dc2626;
+        }
+
+        .section {
+            padding: 20px;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 230px;
+            height: 100vh;
+            background: #111827;
+            color: rgb(255, 255, 255);
+            padding: 20px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 30px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            padding: 12px;
+            margin-bottom: 10px;
+            background: #111827;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: 0.3s;
+        }
+
+        .sidebar ul li:hover {
+            background: #1f2937;
+        }
+
+        .sidebar ul li.active {
+            background: #2563eb;
+        }
+
+        /* push logout to bottom */
+        .sidebar .logout-btn {
+            margin-top: auto;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h2 class="logo">Payroll System</h2>
+
+            <ul>
+                <li onclick="showSection('employees')" class="active">Employees</li>
+                <li onclick="showSection('attendance')">Attendance</li>
+                <li onclick="showSection('payroll')">Payroll</li>
+                <li onclick="showSection('leaves')">Leaves</li>
+                <li onclick="showSection('reports')">Reports</li>
+            </ul>
+
+            <button class="logout-btn" onclick="adminLogout()">Logout</button>
+        </aside>
+
+        <main class="main-content">
+            <!-- Login Gate -->
+            <div id="loginGate">
+                <div class="login-box">
+                    <h2 style="margin-bottom: 15px;">Admin Login</h2>
+                    <input type="text" id="adminUser" placeholder="Username">
+                    <input type="password" id="adminPass" placeholder="Password">
+                    <button onclick="adminLogin()">Login</button>
+                    <p id="adminError" style="color: red; margin-top: 10px; font-size: 14px;"></p>
+                </div>
+            </div>
+
+            <!-- Main Dashboard -->
+            <div id="dashboard" class="hidden">
+                <div class="header">
+                    <h1>Admin Dashboard</h1>
+                    <button class="logout-btn" onclick="adminLogout()">Logout</button>
+                </div>
+
+                <div class="container">
+                    <!-- Employee Management -->
+                    <div id="employees" class="section">
+                        <div class="card">
+                            <h3>Employee Management</h3>
+                            <div style="overflow-x: auto;">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Dept</th>
+                                            <th>Designation</th>
+                                            <th>Salary</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="empTableBody"></tbody>
+                                </table>
+                            </div>
+
+                            <div style="margin-top: 20px; border-top: 1px solid #ddd; padding-top: 15px;">
+                                <h4 style="margin-bottom: 10px;">Add Employee</h4>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                                    <input id="empName" placeholder="Name">
+                                    <input id="empDept" placeholder="Department">
+                                    <input id="empRole" placeholder="Designation">
+                                    <input id="empSalary" type="number" placeholder="Base Salary">
+                                    <input type="text" id="empPassword" placeholder="Password">
+                                </div>
+                                <button onclick="addEmployee()">Save Employee</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Monthly Attendance -->
+                    <div id="attendance" class="section hidden">
+                        <div class="card">
+                            <h3>Record Monthly Attendance</h3>
+                            <input id="attEmpId" type="number" placeholder="Employee ID">
+                            <input id="attMonth" type="number" placeholder="Month (1-12)">
+                            <input id="attYear" type="number" placeholder="Year">
+                            <input id="attPresentDays" type="number" placeholder="Present Days (e.g. 20)">
+                            <input id="attLeaves" type="number" placeholder="Leaves / Absent Days (e.g. 2)">
+                            <button onclick="recordAttendance()">Submit Monthly Attendance</button>
+                        </div>
+                    </div>
+
+
+                    <!-- Payroll Calculation -->
+                    <div id="payroll" class="section hidden">
+                        <div class="card">
+                            <h3>Run Payroll</h3>
+                            <input id="payEmpId" type="number" placeholder="Employee ID">
+                            <div style="display: flex; gap: 10px;">
+                                <input id="payMonth" type="number" placeholder="Month (1-12)">
+                                <input id="payYear" type="number" placeholder="Year">
+                            </div>
+                            <button onclick="runPayroll()">Generate Payslip</button>
+                            <ul id="payList"></ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Leave Management -->
+                <div id="leaves" class="section hidden">
+                    <div class="card">
+                        <h3>Manage Leave Requests</h3>
+                        <button onclick="loadAdminLeaves()" style="margin-bottom: 10px;">Refresh Leaves</button>
+                        <div style="overflow-x: auto;">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Emp ID</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>Reason</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="adminLeaveTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reports -->
+                <div id="reports" class="section hidden">
+                    <div class="card">
+                        <h3>Generate Reports</h3>
+
+                        <input id="reportMonth" type="number" placeholder="Month (1-12)">
+                        <input id="reportYear" type="number" placeholder="Year">
+
+                        <div style="display:flex; gap:10px;">
+                            <button onclick="getPayrollReport()">Payroll Report</button>
+                            <button onclick="getAttendanceReport()">Attendance Report</button>
+                        </div>
+
+                        <ul id="reportList"></ul>
+                    </div>
+                </div>
+
+            </div>
+    </div>
+    </div>
+
+    <script src="script.js"></script>
+    </main>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Login - Payroll System</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body class="login-page">
+
+    <a href="/admin.html"
+        style="position: absolute; top: 20px; right: 20px; padding: 8px 16px; background: #6b7280; color: white; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 500; transition: box-shadow 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.05);"
+        onmouseover="this.style.background='#4b5563'" onmouseout="this.style.background='#6b7280'">Admin Panel</a>
+
+    <div class="login-container">
+        <div class="login-card">
+            <h2>Employee Payroll System</h2>
+            <p class="subtitle">Login to continue</p>
+
+            <input id="username" placeholder="Username">
+            <input id="password" type="password" placeholder="Password">
+
+            <button onclick="login()">Login</button>
+
+            <p id="error" class="error-text"></p>
+        </div>
+    </div>
+
+    <script src="/script.js"></script>
+</body>
+
+</html>

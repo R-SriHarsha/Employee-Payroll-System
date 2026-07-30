@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Payslip</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .payslip {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .section {
+            margin-top: 20px;
+        }
+
+        .section h3 {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        .details,
+        .salary {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .details td {
+            padding: 6px 0;
+        }
+
+        .salary th,
+        .salary td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .salary th {
+            background: #f0f0f0;
+        }
+
+        .highlight {
+            font-size: 18px;
+            font-weight: bold;
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 12px;
+            color: gray;
+        }
+
+        .btn {
+            margin-top: 20px;
+            display: block;
+            text-align: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #10b981;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        @media print {
+            button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="payslip">
+
+        <!-- HEADER -->
+        <div class="header">
+            <h1>ABC Company Pvt Ltd</h1>
+            <p>Employee Payslip</p>
+        </div>
+
+        <!-- EMPLOYEE DETAILS -->
+        <div class="section">
+            <h3>Employee Details</h3>
+            <table class="details">
+                <tr>
+                    <td><strong>ID:</strong></td>
+                    <td id="emp_id"></td>
+                </tr>
+                <tr>
+                    <td><strong>Name:</strong></td>
+                    <td id="emp_name"></td>
+                </tr>
+                <tr>
+                    <td><strong>Department:</strong></td>
+                    <td id="emp_dept"></td>
+                </tr>
+                <tr>
+                    <td><strong>Designation:</strong></td>
+                    <td id="emp_role"></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- ATTENDANCE -->
+        <div class="section">
+            <h3>Attendance</h3>
+            <table class="details">
+                <tr>
+                    <td>Total Days:</td>
+                    <td id="total_days"></td>
+                </tr>
+                <tr>
+                    <td>Present Days:</td>
+                    <td id="present_days"></td>
+                </tr>
+                <tr>
+                    <td>Leaves:</td>
+                    <td id="leaves"></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- SALARY -->
+        <div class="section">
+            <h3>Salary Breakdown</h3>
+            <table class="salary">
+                <tr>
+                    <th>Component</th>
+                    <th>Amount</th>
+                </tr>
+                <tr>
+                    <td>Basic</td>
+                    <td id="basic"></td>
+                </tr>
+                <tr>
+                    <td>HRA</td>
+                    <td id="hra"></td>
+                </tr>
+                <tr>
+                    <td>DA</td>
+                    <td id="da"></td>
+                </tr>
+                <tr>
+                    <td>PF</td>
+                    <td id="pf"></td>
+                </tr>
+                <tr>
+                    <td>Tax</td>
+                    <td id="tax"></td>
+                </tr>
+                <tr>
+                    <td><strong>Gross</strong></td>
+                    <td id="gross"></td>
+                </tr>
+                <tr>
+                    <td><strong>Net Salary</strong> (after deductions of pf and Tax)</td>
+                    <td id="net"></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- NET -->
+        <div class="highlight">
+            Net Salary: ₹ <span id="net_salary"></span>
+        </div>
+
+        <!-- PRINT BUTTON -->
+        <div class="btn">
+            <button onclick="window.print()">Download</button>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            This is a system generated payslip.
+        </div>
+
+    </div>
+
+    <script>
+        function loadPayslip() {
+            const data = JSON.parse(localStorage.getItem("payslipData"));
+
+            if (!data) return;
+
+            document.getElementById("emp_id").innerText = data.employee.id;
+            document.getElementById("emp_name").innerText = data.employee.name;
+            document.getElementById("emp_dept").innerText = data.employee.department;
+            document.getElementById("emp_role").innerText = data.employee.designation;
+
+            document.getElementById("total_days").innerText = data.attendance.total_days;
+            document.getElementById("present_days").innerText = data.attendance.present_days;
+            document.getElementById("leaves").innerText = data.attendance.total_days - data.attendance.present_days;
+
+            document.getElementById("basic").innerText = data.salary.basic;
+            document.getElementById("hra").innerText = data.salary.hra;
+            document.getElementById("da").innerText = data.salary.da;
+            document.getElementById("pf").innerText = data.salary.pf;
+            document.getElementById("tax").innerText = data.salary.tax;
+            document.getElementById("gross").innerText = data.salary.gross;
+            document.getElementById("net").innerText = data.salary.net;
+            document.getElementById("net_salary").innerText = data.salary.net;
+        }
+
+        loadPayslip();
+    </script>
+
+</body>
+
+</html>
